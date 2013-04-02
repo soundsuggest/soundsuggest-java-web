@@ -76,7 +76,7 @@ Usage
 
 Different ways to construct a JSON Object :
 
-    ```Java
+        ```Java
         // METHOD 1
         JSONObject JSON1 = new JSONObject();
         JSON1.append("items", "noisedriver");
@@ -97,7 +97,7 @@ Different ways to construct a JSON Object :
         JSON3.put("items", "noisedriver");
         JSON3.put("items", "left passage");
         System.out.println("JSON3\n" + JSON2.toString());
-    ```
+        ```
 
 Output:
 
