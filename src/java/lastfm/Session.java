@@ -26,7 +26,7 @@
 
 package lastfm;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * Contains Session data relevant for making API calls which require authentication.

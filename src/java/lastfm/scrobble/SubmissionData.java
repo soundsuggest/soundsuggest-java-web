@@ -26,8 +26,8 @@
 
 package lastfm.scrobble;
 
-import static util.StringUtilities.decode;
-import static util.StringUtilities.encode;
+import static lastfm.util.StringUtilities.decode;
+import static lastfm.util.StringUtilities.encode;
 
 /**
  * Bean that contains track information.

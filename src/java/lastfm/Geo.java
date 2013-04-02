@@ -28,9 +28,9 @@ package lastfm;
 
 import java.util.*;
 
-import util.MapUtilities;
-import util.StringUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.util.StringUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Provides nothing more than a namespace for the API methods starting with geo.

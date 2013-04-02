@@ -31,8 +31,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.MapUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Venue information bean.

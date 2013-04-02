@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * Provides the binding for the "tasteometer.compare" method.

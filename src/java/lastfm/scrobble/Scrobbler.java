@@ -41,8 +41,8 @@ import java.util.Collections;
 import lastfm.Caller;
 import lastfm.Session;
 
-import static util.StringUtilities.encode;
-import static util.StringUtilities.md5;
+import static lastfm.util.StringUtilities.encode;
+import static lastfm.util.StringUtilities.md5;
 
 /**
  * This class manages communication with the server for scrobbling songs. You can retrieve an instance of this class by calling

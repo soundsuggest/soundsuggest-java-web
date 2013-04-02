@@ -38,7 +38,7 @@ import lastfm.scrobble.ScrobbleData;
 import lastfm.scrobble.ScrobbleResult;
 import lastfm.scrobble.Scrobbler;
 import lastfm.scrobble.SubmissionData;
-import util.StringUtilities;
+import lastfm.util.StringUtilities;
 
 /**
  * Standard {@link Cache} implementation which is used by default by the {@link de.umass.lastfm.Caller} class.

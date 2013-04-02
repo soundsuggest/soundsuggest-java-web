@@ -30,8 +30,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import util.MapUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Provides access to the Last.fm radio streaming service.<br/>

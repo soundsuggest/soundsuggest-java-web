@@ -31,11 +31,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
-import static util.StringUtilities.isMD5;
-import static util.StringUtilities.map;
-import static util.StringUtilities.md5;
+import static lastfm.util.StringUtilities.isMD5;
+import static lastfm.util.StringUtilities.map;
+import static lastfm.util.StringUtilities.md5;
 
 /**
  * Provides bindings for the authentication methods of the last.fm API.

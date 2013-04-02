@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
         <script type="text/javascript" src="js/lib/d3/d3.v3.js"></script>
         <script type="text/javascript" src="js/lib/jquery/jquery-1.8.3.js"></script>
-        <script type="text/javascript" src="js/lib/infovis/infovis.whitebox.js"></script>
+        <script type="text/javascript" src="js/lib/infovis/infovis.whitebox.cf.js"></script>
     </head>
     <body>
         <h1>SoundSuggest - Visualization of Music Suggestions</h1>

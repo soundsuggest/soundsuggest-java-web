@@ -1,4 +1,4 @@
-package json;
+package org.json;
 
 /*
 Copyright (c) 2002 JSON.org
@@ -24,7 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import json.JSONArray;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;

@@ -26,7 +26,7 @@
 
 package lastfm;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * This utility class can be used to generically generate Result objects (usually Lists or {@link PaginatedResult}s) from an XML response

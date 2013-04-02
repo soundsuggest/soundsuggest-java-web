@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * An <code>Image</code> contains metadata and URLs for an artist's image. Metadata contains title, votes, format and other.

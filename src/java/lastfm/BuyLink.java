@@ -26,7 +26,7 @@
 
 package lastfm;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * A <code>BuyLink</code> contains information about places to buy an Album or Track. BuyLinks can point to physical

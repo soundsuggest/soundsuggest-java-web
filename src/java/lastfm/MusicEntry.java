@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * <code>MusicEntry</code> is the abstract superclass for {@link Track}, {@link Artist} and {@link Album}. It encapsulates data and provides

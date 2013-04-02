@@ -1,9 +1,9 @@
 /* 
-    Document   : whitebox
+    Document   : infovis.whitebox.cf
     Created on : 2-apr-2013, 12:00:59
     Author     : Joris Schelfaut
     Description:
-        This stylesheet corresponds to the whitebox.js JavaScript script.
+        This stylesheet corresponds to the infovis.whitebox.cf.js JavaScript script.
         To create a custom stylesheet, add this file as an import in the
         header of the custom CSS stylesheet.
 */
@@ -94,4 +94,8 @@ path.arc {
 
 .node-user-clicked {
     fill: #d62728 !important;
+}
+
+button {
+    cursor: pointer;
 }

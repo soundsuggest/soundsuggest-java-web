@@ -347,6 +347,7 @@ function Whitebox(data) {
     function createItemInfo(d) {
         var info
                 = "<div id=\"#item-" + d.key + "\" class=\"item-info\">"
+                + "<h3 " + ((d.recommendation)?"class=\"item-recommendation\"":"") + ">" + d.key + "</h3>"
                 + "<p>" + d.description + "</p>"
                 + ((d.recommendation)?"<button onclick=\"addRecommendation('" + d.key + "');\">Add to library</button>":"");
         return info + "</div>";

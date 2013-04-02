@@ -46,7 +46,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import static util.StringUtilities.*;
+import static lastfm.util.StringUtilities.*;
 
 /**
  * The <code>Caller</code> class handles the low-level communication between the client and last.fm.<br/>

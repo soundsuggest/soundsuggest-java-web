@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import util.StringUtilities;
+import lastfm.util.StringUtilities;
 
 /**
  * The <code>Cache</code> handles storing and loading to a permanent storage for last.fm api requests. This could be

@@ -26,7 +26,7 @@
 
 package lastfm;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * An <code>ItemFactory</code> can be used to instantiate a value object - such as Artist, Album, Track, Tag - from an XML element. Use the

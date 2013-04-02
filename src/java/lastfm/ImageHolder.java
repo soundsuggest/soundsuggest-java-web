@@ -28,7 +28,7 @@ package lastfm;
 
 import java.util.*;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * Abstract superclass for all items that may contain images (such as {@link Artist}s, {@link Album}s or {@link Track}s).

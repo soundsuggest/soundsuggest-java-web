@@ -31,9 +31,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import util.MapUtilities;
-import util.StringUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.util.StringUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Wrapper class for Album related API calls and Album Bean.

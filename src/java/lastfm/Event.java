@@ -31,8 +31,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import util.MapUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Bean for Events.

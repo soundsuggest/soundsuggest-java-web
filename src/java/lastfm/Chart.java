@@ -28,8 +28,8 @@ package lastfm;
 
 import java.util.*;
 
-import util.MapUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Bean for Chart information. Contains a start date, an end date and a list of entries.

@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import util.MapUtilities;
-import util.StringUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.util.StringUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Bean that contains artist information.<br/> This class contains static methods that executes API methods relating to artists.<br/> Method

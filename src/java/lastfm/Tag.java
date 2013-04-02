@@ -31,8 +31,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import util.StringUtilities;
-import xml.DomElement;
+import lastfm.util.StringUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Bean for Tag data and provides methods for global tags.

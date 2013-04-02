@@ -28,9 +28,9 @@ package lastfm;
 
 import java.util.*;
 
-import util.MapUtilities;
-import util.StringUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.util.StringUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Contains user information and provides bindings to the methods in the user. namespace.

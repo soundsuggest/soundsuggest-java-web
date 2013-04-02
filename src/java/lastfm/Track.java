@@ -37,9 +37,9 @@ import java.util.Map;
 import lastfm.scrobble.IgnoredMessageCode;
 import lastfm.scrobble.ScrobbleData;
 import lastfm.scrobble.ScrobbleResult;
-import util.MapUtilities;
-import util.StringUtilities;
-import xml.DomElement;
+import lastfm.util.MapUtilities;
+import lastfm.util.StringUtilities;
+import lastfm.xml.DomElement;
 
 /**
  * Bean that contains information related to <code>Track</code>s and provides bindings to methods

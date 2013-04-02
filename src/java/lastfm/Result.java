@@ -27,7 +27,7 @@ package lastfm;
 
 import org.w3c.dom.Document;
 
-import xml.DomElement;
+import lastfm.xml.DomElement;
 
 /**
  * The <code>Result</code> class contains the response sent by the server, i.e. the status (either ok or failed),

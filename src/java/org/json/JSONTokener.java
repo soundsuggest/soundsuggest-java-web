@@ -1,6 +1,5 @@
-package json;
+package org.json;
 
-import json.JSONArray;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
