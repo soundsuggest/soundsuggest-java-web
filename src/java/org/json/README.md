@@ -70,3 +70,40 @@ cookie lists.
 * `JSONML.java:` JSONML provides support for converting between JSONML and XML.
 
 * `XMLTokener.java:` XMLTokener extends JSONTokener for parsing XML text.
+
+Usage
+-----
+
+Different ways to construct a JSON Object :
+
+    ```Java
+        // METHOD 1
+        JSONObject JSON1 = new JSONObject();
+        JSON1.append("items", "noisedriver");
+        JSON1.append("items", "left passage");
+        System.out.println("JSON1\n" + JSON1.toString());
+        
+        // METHOD 2
+        JSONObject JSON2 = new JSONObject();
+        JSONArray ja = new JSONArray();
+        ja.put("noisedriver");
+        ja.put("left passage");
+        JSON2.put("items", ja);
+        System.out.println("JSON2\n" + JSON2.toString());
+        
+        // METHOD 3
+        JSONObject JSON3 = new JSONObject();
+        JSON3.put("items", new JSONArray());
+        JSON3.put("items", "noisedriver");
+        JSON3.put("items", "left passage");
+        System.out.println("JSON3\n" + JSON2.toString());
+    ```
+
+Output:
+
+    JSON1
+    {"items":["noisedriver","left passage"]}
+    JSON2
+    {"items":["noisedriver","left passage"]}
+    JSON3
+    {"items":["noisedriver","left passage"]}

@@ -1,8 +1,8 @@
 package servlets;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Model;
 import lastfm.Artist;
-import lastfm.Authenticator;
 import lastfm.PaginatedResult;
 import lastfm.Session;
 import lastfm.Tasteometer;
@@ -41,7 +41,8 @@ public class DataService extends HttpServlet {
     public static final int THRESHOLD               = 0;
     
     private String session_key;
-    private String user;
+    private String username;
+    private User activeUser;
     
     /**
      * @param token 
@@ -52,19 +53,40 @@ public class DataService extends HttpServlet {
     }
     
     /**
-     * @param user 
+     * @return the session key
      */
-    @Model
-    private void setUser(String user) {
-        this.user = user;
-    }
-
+    @Basic
     public String getSessionKey() {
         return session_key;
     }
-
-    public String getUser() {
-        return user;
+    
+    /**
+     * @param user 
+     */
+    @Model
+    private void setUsername(String username) {
+        this.username = username;
+    }
+    
+    /**
+     * @return the username of the active user.
+     */
+    @Basic
+    public String getUsername() {
+        return username;
+    }
+    
+    @Basic
+    public User getActiveUser() {
+        return activeUser;
+    }
+    
+    /**
+     * @param activeUser 
+     */
+    @Model
+    private void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
     }
     
     /**
@@ -81,96 +103,19 @@ public class DataService extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         response.setContentType(CONTENT_TYPE);
-        //this.setToken(request.getParameter("token"));
-        this.setUser(request.getParameter("user"));
-        this.setSessionKey(request.getParameter("key"));
         try {
+            this.setUsername(request.getParameter("user"));
+            this.setSessionKey(request.getParameter("key"));
             Caller.getInstance().setUserAgent("tst");
             Caller.getInstance().setDebugMode(true);
-            Session session = Session.createSession(API_KEY, API_SECRET, getSessionKey());
-            out.println(toStringDatastructure(collectData(session)));
+            this.setActiveUser(User.getInfo(getUsername(), API_KEY));
+            out.println(collectData(Session.createSession(API_KEY, API_SECRET, getSessionKey())));
         } finally {
             out.close();
         }
     }
     
-    private String toStringDatastructure(Map<Artist, Collection<User>> data) {
-        String string = "";
-        Set<Artist> artists = data.keySet();
-        string += "[\n";
-        for (Artist a : artists) {
-            string += "{\n";
-            string += "\t\"name\" : " + a.getName() + ",\n";
-            string += "\towners : [\n";
-            for (User u : data.get(a)) {
-                string += "\t\t" + u.getName() + ",\n";
-            }
-            string += "\n";
-            string += "\n]";
-            string += "\n},";
-        }
-        string += "]\n";
-        return string;
-    }
-    
     /**
-     * <p>Collect data uses the lastfm-java library to construct a datastructure
-     * to generate the JSON file from.</p>
-     * <p>Algorithm used :</p>
-     * <pre>
-     * recommendations	= user.getRecommendedArtists (active_user)
-     * neighbours = user.getNeighbours (active_user)
-     * 
-     * FOR EACH recommendation IN recommendations
-     *      similar_artists = artist.getSimilar(recommendation)
-     *      list.push(similar_artists) 
-     *      list.push(recommendation)
-     *      FOR EACH neighbour IN neighbours
-     *          IF tasteometer.compare (neighbour, list) > threshold THEN
-     *              data[recommendation].push (neighbour)
-     *          END-IF
-     *      END-FOR
-     * END-FOR
-     * </pre>
-     */
-    private Map<Artist, Collection<User>> collectData(Session session) {
-        Map<Artist, Collection<User>> datastructure = new HashMap<Artist, Collection<User>>();
-        
-        PaginatedResult<Artist> recommendations = User.getRecommendedArtists(session);
-        Collection<User> neighbours = User.getNeighbours(getUser(), LIMIT_NEIGHBOURS, API_KEY);
-        for (Artist recommendation : recommendations) {
-            Collection<Artist> similarArtists = Artist.getSimilar(recommendation.getName(), LIMIT_SIMILAR_ARTISTS, API_KEY);
-            List<Artist> list = new ArrayList<Artist>(similarArtists);
-            list.add(recommendation);
-            for (User neighbour : neighbours) {
-                Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, neighbour.getName(),
-                        Tasteometer.InputType.ARTISTS, createArtistString(list), API_KEY);
-                if (result.getScore() > THRESHOLD) {
-                    if (datastructure.get(recommendation) != null) { datastructure.put(recommendation, new ArrayList<User>()); }
-                    datastructure.get(recommendation).add(neighbour);
-                }
-            }
-        }
-        
-        return datastructure;
-    }
-    
-    /**
-     * @param artists
-     * @return 
-     */
-    private String createArtistString(List<Artist> artists) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int N = artists.size() - 1;
-        for (int i = 0; i < N; i++) {
-            stringBuilder.append(artists.get(i).getName());
-            stringBuilder.append(",");
-        }
-        return stringBuilder.toString() + artists.get(N);
-    }
-    
-    /**
-     * 
      * <p>The structure of the JSON String :</p>
      * <pre>
      * {
@@ -202,15 +147,92 @@ public class DataService extends HttpServlet {
      *      ]
      * }
      * </pre>
-     * @param data
+     * @param data  : the data structure containing relevant artists and users
+     * @param users : the list of users involved
      * @return 
      */
-    private JSONObject createJSON(Map<Artist, Collection<User>> data) {
-        JSONObject json = new JSONObject();
+    @Model
+    private String toJSON(Map<Artist, List<User>> data, List<User> users) {
+        JSONObject JSON = new JSONObject();
+        Set<Artist> artists = data.keySet();
         
+        JSON.append("items", null);
         
+        for (Artist a : artists) {
+            for (User u : data.get(a)) {
+                
+            }
+        }
         
-        return json;
+        JSON.append("users", null);
+        
+        for (User u : users) {
+            
+            for (Artist a : artists) {
+                
+            }
+        }
+        
+        return JSON.toString();
+    }
+    
+    /**
+     * <p>Collect data uses the lastfm-java library to construct a datastructure
+     * to generate the JSON file from.</p>
+     * <p>Algorithm used :</p>
+     * <pre>
+     * recommendations	= user.getRecommendedArtists (active_user)
+     * neighbours = user.getNeighbours (active_user)
+     * 
+     * FOR EACH recommendation IN recommendations
+     *      similar_artists = artist.getSimilar(recommendation)
+     *      list.push(similar_artists) 
+     *      list.push(recommendation)
+     *      FOR EACH neighbour IN neighbours
+     *          IF tasteometer.compare (neighbour, list) > threshold THEN
+     *              data[recommendation].push (neighbour)
+     *          END-IF
+     *      END-FOR
+     * END-FOR
+     * </pre>
+     */
+    @Model
+    private String collectData(Session session) {
+        Map<Artist, List<User>> datastructure = new HashMap<Artist, List<User>>();
+        
+        PaginatedResult<Artist> recommendations = User.getRecommendedArtists(session);
+        Collection<User> neighbours = User.getNeighbours(getUsername(), LIMIT_NEIGHBOURS, API_KEY);
+        for (Artist recommendation : recommendations) {
+            Collection<Artist> similarArtists = Artist.getSimilar(recommendation.getName(), LIMIT_SIMILAR_ARTISTS, API_KEY);
+            List<Artist> list = new ArrayList<Artist>(similarArtists);
+            list.add(recommendation);
+            for (User neighbour : neighbours) {
+                Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, neighbour.getName(),
+                        Tasteometer.InputType.ARTISTS, createArtistString(list), API_KEY);
+                if (result.getScore() > THRESHOLD) {
+                    if (datastructure.get(recommendation) != null) { datastructure.put(recommendation, new ArrayList<User>()); }
+                    datastructure.get(recommendation).add(neighbour);
+                }
+            }
+        }
+        List<User> users = new ArrayList<User>(neighbours);
+        users.add(getActiveUser());
+        return toJSON(datastructure, users);
+    }
+    
+    /**
+     * @param artists
+     * @return 
+     */
+    @Model
+    private String createArtistString(List<Artist> artists) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int N = artists.size() - 1;
+        for (int i = 0; i < N; i++) {
+            stringBuilder.append(artists.get(i).getName());
+            stringBuilder.append(",");
+        }
+        return stringBuilder.toString() + artists.get(N);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
