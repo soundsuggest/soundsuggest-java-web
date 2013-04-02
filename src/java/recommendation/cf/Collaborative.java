@@ -4,7 +4,7 @@
  * 2013
  *
  */
-package recommendation;
+package recommendation.cf;
 
 import java.util.*;
 import java.io.*;

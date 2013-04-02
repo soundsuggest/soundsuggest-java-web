@@ -40,15 +40,15 @@ public class DataService extends HttpServlet {
     public static final int LIMIT_SIMILAR_ARTISTS   = 5;
     public static final int THRESHOLD               = 0;
     
-    private String token;
+    private String session_key;
     private String user;
     
     /**
      * @param token 
      */
     @Model
-    private void setToken(String token) {
-        this.token = token;
+    private void setSessionKey(String sessionKey) {
+        this.session_key = sessionKey;
     }
     
     /**
@@ -59,8 +59,8 @@ public class DataService extends HttpServlet {
         this.user = user;
     }
 
-    public String getToken() {
-        return token;
+    public String getSessionKey() {
+        return session_key;
     }
 
     public String getUser() {
@@ -83,14 +83,11 @@ public class DataService extends HttpServlet {
         response.setContentType(CONTENT_TYPE);
         //this.setToken(request.getParameter("token"));
         this.setUser(request.getParameter("user"));
+        this.setSessionKey(request.getParameter("key"));
         try {
             Caller.getInstance().setUserAgent("tst");
             Caller.getInstance().setDebugMode(true);
-            
-            this.setToken(Authenticator.getToken(API_KEY));
-            System.out.println("Token : " + getToken());
-            
-            Session session = Authenticator.getSession(getToken(), API_KEY, API_SECRET);
+            Session session = Session.createSession(API_KEY, API_SECRET, getSessionKey());
             out.println(toStringDatastructure(collectData(session)));
         } finally {
             out.close();

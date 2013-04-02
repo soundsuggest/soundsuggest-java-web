@@ -1,4 +1,4 @@
-package recommendation;
+package recommendation.cf;
 
 /**
    @author Jesse Davis
