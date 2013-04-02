@@ -76,7 +76,7 @@ Usage
 
 Different ways to construct a JSON Object :
 
-        ```Java
+        ```java
         // METHOD 1
         JSONObject JSON1 = new JSONObject();
         JSON1.append("items", "noisedriver");
