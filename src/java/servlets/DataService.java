@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import lastfm.Caller;
+import org.json.JSONArray;
 
 /**
  * <p>
@@ -38,11 +39,12 @@ public class DataService extends HttpServlet {
     public static final String CONTENT_TYPE         = "application/json";
     public static final int LIMIT_NEIGHBOURS        = 10;
     public static final int LIMIT_SIMILAR_ARTISTS   = 5;
-    public static final int THRESHOLD               = 0;
+    public static final double THRESHOLD               = 0.1;
     
     private String session_key;
     private String username;
     private User activeUser;
+    private boolean debug;
     
     /**
      * @param token 
@@ -50,6 +52,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setSessionKey(String sessionKey) {
         this.session_key = sessionKey;
+        if (getDebug()) System.out.println("getSessionKey() == " + getSessionKey());
     }
     
     /**
@@ -59,6 +62,17 @@ public class DataService extends HttpServlet {
     public String getSessionKey() {
         return session_key;
     }
+
+    @Model
+    private void setDebug(boolean debug) {
+        this.debug = debug;
+        if (getDebug()) System.out.println("getDebug() == " + getDebug());
+    }
+    
+    @Basic
+    public boolean getDebug() {
+        return this.debug;
+    }
     
     /**
      * @param user 
@@ -66,6 +80,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setUsername(String username) {
         this.username = username;
+        if (getDebug()) System.out.println("getUsername() == " + getUsername());
     }
     
     /**
@@ -87,6 +102,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
+        if (getDebug()) System.out.println("getActiveUser() == " + getActiveUser().getName());
     }
     
     /**
@@ -108,6 +124,7 @@ public class DataService extends HttpServlet {
             this.setSessionKey(request.getParameter("key"));
             Caller.getInstance().setUserAgent("tst");
             Caller.getInstance().setDebugMode(true);
+            this.setDebug(true);
             this.setActiveUser(User.getInfo(getUsername(), API_KEY));
             out.println(collectData(Session.createSession(API_KEY, API_SECRET, getSessionKey())));
         } finally {
@@ -156,20 +173,35 @@ public class DataService extends HttpServlet {
         JSONObject JSON = new JSONObject();
         Set<Artist> artists = data.keySet();
         
-        JSON.append("items", null);
+        JSON.put("items", new JSONArray());
         
         for (Artist a : artists) {
+            boolean isRecommendation = true;
+            JSONObject artist = new JSONObject();
+            artist.put("name", a.getName());
+            artist.put("edges", new JSONArray());
+            artist.put("owners", new JSONArray());
+            artist.put("description", a.getWikiSummary());
             for (User u : data.get(a)) {
-                
+                if (u.getName().equalsIgnoreCase(getUsername())) {
+                    isRecommendation = false;
+                }
+                artist.put("edges", "artist." + a.getName() + ".user." + u.getName());
+                artist.put("owners", u.getName());
             }
+            artist.put("recommendation", isRecommendation);
+            JSON.put("items", artist);
         }
         
-        JSON.append("users", null);
+        JSON.put("users", new JSONArray());
         
         for (User u : users) {
-            
+            JSONObject user = new JSONObject();
+            user.put("name", u.getName());
+            user.put("active", u.getName().equalsIgnoreCase(getUsername()));
+            user.put("owned", new JSONArray());
             for (Artist a : artists) {
-                
+                user.put("owned", "artist." + a.getName());
             }
         }
         
@@ -199,19 +231,55 @@ public class DataService extends HttpServlet {
     @Model
     private String collectData(Session session) {
         Map<Artist, List<User>> datastructure = new HashMap<Artist, List<User>>();
-        
         PaginatedResult<Artist> recommendations = User.getRecommendedArtists(session);
+        
+        if (getDebug()) {
+            String out = "recommendations : [";
+            for (Artist recommendation : recommendations.getPageResults()) {
+                out += recommendation.getName() + ", ";
+            }
+            System.out.println(out + "];");
+        }
+        
         Collection<User> neighbours = User.getNeighbours(getUsername(), LIMIT_NEIGHBOURS, API_KEY);
-        for (Artist recommendation : recommendations) {
+        
+        if (getDebug()) {
+            String out = "neighbours : [ ";
+            for (User neighbour : neighbours) {
+                out += neighbour.getName() + ", ";
+            }
+            System.out.println(out + "];");
+        }
+        
+        for (Artist recommendation : recommendations.getPageResults()) {
+            
+            if (getDebug()) { System.out.println("recommendation : [" + recommendation + "];"); }
+            
+            // Create a list of Similar Artists including the recommendation
             Collection<Artist> similarArtists = Artist.getSimilar(recommendation.getName(), LIMIT_SIMILAR_ARTISTS, API_KEY);
             List<Artist> list = new ArrayList<Artist>(similarArtists);
             list.add(recommendation);
+            
+            if (getDebug()) {
+                String out = "similar(" + recommendation.getName() + ") : [";
+                for (Artist a : list) {
+                    out += a.getName() + ", ";
+                }
+                System.out.println(out + "];");
+            }
+            
             for (User neighbour : neighbours) {
-                Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, neighbour.getName(),
-                        Tasteometer.InputType.ARTISTS, createArtistString(list), API_KEY);
+                
+                if (getDebug()) { System.out.println("Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, " + neighbour.getName() + ", Tasteometer.InputType.ARTISTS, " + createArtistString(list) + ");"); }
+                // Use the list to establish a similarity score between the recommendation and the user to determine an "ownership score";
+                Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, neighbour.getName(), Tasteometer.InputType.ARTISTS, createArtistString(list), API_KEY);
+                if (getDebug()) { System.out.println("result.getScore() == " + result.getScore()); }
+                
                 if (result.getScore() > THRESHOLD) {
-                    if (datastructure.get(recommendation) != null) { datastructure.put(recommendation, new ArrayList<User>()); }
+                    if (datastructure.get(recommendation) == null) { datastructure.put(recommendation, new ArrayList<User>()); }
                     datastructure.get(recommendation).add(neighbour);
+                } else {
+                    if (datastructure.get(recommendation) == null) { datastructure.put(recommendation, new ArrayList<User>()); }
                 }
             }
         }
@@ -232,7 +300,7 @@ public class DataService extends HttpServlet {
             stringBuilder.append(artists.get(i).getName());
             stringBuilder.append(",");
         }
-        return stringBuilder.toString() + artists.get(N);
+        return stringBuilder.toString() + artists.get(N).getName();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
