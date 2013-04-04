@@ -189,7 +189,9 @@ public class DataService extends HttpServlet {
                 if (u.getName().equalsIgnoreCase(getUsername())) {
                     isRecommendation = false;
                 }
-                artist.append("edges", "item." + encodeName(a.getName()) + ".user." + encodeName(u.getName()));
+                for (Artist owned : userData.get(u)) {
+                    artist.append("edges", "item." + encodeName(owned.getName()) + ".user." + encodeName(u.getName()));
+                }
                 artist.append("owners", encodeName(u.getName()));
             }
             artist.put("recommendation", isRecommendation);
@@ -204,7 +206,7 @@ public class DataService extends HttpServlet {
             user.put("name", encodeName(u.getName()));
             user.put("active", u.getName().equalsIgnoreCase(getUsername()));
             user.put("owned", new JSONArray());
-            for (Artist a : artists) {
+            for (Artist a : userData.get(u)) {
                 user.append("owned", "item." + encodeName(a.getName()));
             }
             JSON.append("users", user);
@@ -282,21 +284,31 @@ public class DataService extends HttpServlet {
             System.out.println(out);
         }
         
+        for (Artist artist : topartists) {
+            artistData.get(artist).add(getActiveUser());
+            userData.get(getActiveUser()).add(artist);
+        }
+        
         for (Artist artist : artists) {
-            for (User user : users) {
+            for (User neighbour : neighbours) {
                 try {
-                    Tasteometer.ComparisonResult result = Tasteometer.compare
-                            (Tasteometer.InputType.USER, user.getName(),
-                            Tasteometer.InputType.ARTISTS, artist.getName(),
-                            API_KEY);
+                    Tasteometer.ComparisonResult result;
+                    // Create a list of Similar Artists including the recommendation
+                    Collection<Artist> similarArtists = Artist.getSimilar(artist.getName(), LIMIT_SIMILAR_ARTISTS, API_KEY);
+                    List<Artist> list = new ArrayList<Artist>(similarArtists);
+                    list.add(artist);
+                    result = Tasteometer.compare
+                        (Tasteometer.InputType.USER, neighbour.getName(),
+                        Tasteometer.InputType.ARTISTS, createArtistString(list),
+                        API_KEY);
                     if (result.getScore() > THRESHOLD) { 
-                        artistData.get(artist).add(user);
-                        userData.get(user).add(artist);
+                        artistData.get(artist).add(neighbour);
+                        userData.get(neighbour).add(artist);
                     }
                 } catch (Exception e) {
                     System.err.println(e.getClass().getName() + " : {msg : ["
                             + e.getLocalizedMessage() + "], data : [{usr : "
-                            + user.getName() + "}, {artist : "
+                            + neighbour.getName() + "}, {artist : "
                             + artist.getName() + "}]}");
                 }
             }
