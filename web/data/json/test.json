@@ -1,0 +1,95 @@
+{
+    "users": [
+        {
+            "name": "RoryEschar",
+            "active": false,
+            "owned": 
+                    [
+                        "item.Cloudkicker",
+                        "item.A_Perfect_Circle",
+                        "item.Placebo",
+                        "item.Faithless",
+                        "item.Scale_The_Summit",
+                        "item.Collapse_Under_the_Empire",
+                        "item.Daft_Punk",
+                        "item.Meshuggah",
+                        "item.Noisedriver",
+                        "item.Black_Light_Burns",
+                        "item.Kasabian",
+                        "item.Massive_Attack",
+                        "item.Deftones",
+                        "item.Daan",
+                        "item.Periphery",
+                        "item.Nine_Inch_Nails",
+                        "item.Depeche_Mode",
+                        "item.If_These_Trees_Could_Talk",
+                        "item.Animals_as_Leaders",
+                        "item.The_Van_Jets"
+                    ]
+        },
+        {
+            "name": "usesidedoor",
+            "active": false,
+            "owned":
+                    [
+                        "item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"
+                    ]
+        },
+        {
+            "name": "Blakavar",
+            "active": false,
+            "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "Khafka_", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "ktboardhead", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "noisedriver", "active": true, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "geekologie", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "basicss", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "GaryBuseyCat", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]},
+        {
+            "name": "pipdibble", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}, {"name": "pandafofinho", "active": false, "owned": ["item.Cloudkicker", "item.A_Perfect_Circle", "item.Placebo", "item.Faithless", "item.Scale_The_Summit", "item.Collapse_Under_the_Empire", "item.Daft_Punk", "item.Meshuggah", "item.Noisedriver", "item.Black_Light_Burns", "item.Kasabian", "item.Massive_Attack", "item.Deftones", "item.Daan", "item.Periphery", "item.Nine_Inch_Nails", "item.Depeche_Mode", "item.If_These_Trees_Could_Talk", "item.Animals_as_Leaders", "item.The_Van_Jets"]}],
+    "items": [
+        {
+            "edges": 
+            [
+                "item.Cloudkicker.user.usesidedoor",
+                "item.Cloudkicker.user.ktboardhead",
+                "item.Cloudkicker.user.RoryEschar",
+                "item.Cloudkicker.user.pandafofinho", 
+                "item.Cloudkicker.user.geekologie",
+                "item.Cloudkicker.user.basicss",
+                "item.Cloudkicker.user.GaryBuseyCat",
+                "item.Cloudkicker.user.Khafka_",
+                "item.Cloudkicker.user.Blakavar",
+                "item.Cloudkicker.user.pipdibble",
+                "item.Cloudkicker.user.noisedriver"
+            ],
+            "name": "item.Cloudkicker",
+            "recommendation": false,
+            "owners":
+            [
+                "usesidedoor",
+                "ktboardhead",
+                "RoryEschar",
+                "pandafofinho",
+                "geekologie",
+                "basicss", 
+                "GaryBuseyCat",
+                "Khafka_",
+                "Blakavar",
+                "pipdibble",
+                "noisedriver"
+            ]
+        }, 
+        {
+            "edges":
+            [
+                "item.A_Perfect_Circle.user.pandafofinho",
+                "item.A_Perfect_Circle.user.pipdibble"
+            ],
+            "name": "item.A_Perfect_Circle",
+            "recommendation": true,
+            "owners": 
+            [
+                "pandafofinho",
+                "pipdibble"
+            ]
+        },
+        {
+            "edges": ["item.Placebo.user.pandafofinho", "item.Placebo.user.basicss", "item.Placebo.user.noisedriver"], "name": "item.Placebo", "recommendation": false, "owners": ["pandafofinho", "basicss", "noisedriver"]}, {"edges": ["item.Faithless.user.noisedriver"], "name": "item.Faithless", "recommendation": false, "owners": ["noisedriver"]}, {"edges": [], "name": "item.Scale_The_Summit", "recommendation": true, "owners": []}, {"edges": [], "name": "item.Collapse_Under_the_Empire", "recommendation": true, "owners": []}, {"edges": ["item.Daft_Punk.user.geekologie", "item.Daft_Punk.user.noisedriver"], "name": "item.Daft_Punk", "recommendation": false, "owners": ["geekologie", "noisedriver"]}, {"edges": ["item.Meshuggah.user.usesidedoor", "item.Meshuggah.user.RoryEschar", "item.Meshuggah.user.pandafofinho", "item.Meshuggah.user.GaryBuseyCat", "item.Meshuggah.user.Khafka_", "item.Meshuggah.user.pipdibble"], "name": "item.Meshuggah", "recommendation": true, "owners": ["usesidedoor", "RoryEschar", "pandafofinho", "GaryBuseyCat", "Khafka_", "pipdibble"]}, {"edges": [], "name": "item.Noisedriver", "recommendation": true, "owners": []}, {"edges": [], "name": "item.Black_Light_Burns", "recommendation": true, "owners": []}, {"edges": ["item.Kasabian.user.basicss"], "name": "item.Kasabian", "recommendation": true, "owners": ["basicss"]}, {"edges": ["item.Massive_Attack.user.ktboardhead", "item.Massive_Attack.user.GaryBuseyCat", "item.Massive_Attack.user.noisedriver"], "name": "item.Massive_Attack", "recommendation": false, "owners": ["ktboardhead", "GaryBuseyCat", "noisedriver"]}, {"edges": ["item.Deftones.user.usesidedoor", "item.Deftones.user.RoryEschar", "item.Deftones.user.pandafofinho", "item.Deftones.user.geekologie", "item.Deftones.user.basicss", "item.Deftones.user.GaryBuseyCat", "item.Deftones.user.Khafka_", "item.Deftones.user.pipdibble", "item.Deftones.user.noisedriver"], "name": "item.Deftones", "recommendation": false, "owners": ["usesidedoor", "RoryEschar", "pandafofinho", "geekologie", "basicss", "GaryBuseyCat", "Khafka_", "pipdibble", "noisedriver"]}, {"edges": [], "name": "item.Daan", "recommendation": true, "owners": []}, {"edges": ["item.Periphery.user.geekologie", "item.Periphery.user.GaryBuseyCat", "item.Periphery.user.pipdibble"], "name": "item.Periphery", "recommendation": true, "owners": ["geekologie", "GaryBuseyCat", "pipdibble"]}, {"edges": ["item.Nine_Inch_Nails.user.basicss", "item.Nine_Inch_Nails.user.noisedriver"], "name": "item.Nine_Inch_Nails", "recommendation": false, "owners": ["basicss", "noisedriver"]}, {"edges": ["item.Depeche_Mode.user.noisedriver"], "name": "item.Depeche_Mode", "recommendation": false, "owners": ["noisedriver"]}, {"edges": [], "name": "item.If_These_Trees_Could_Talk", "recommendation": true, "owners": []}, {"edges": ["item.Animals_as_Leaders.user.ktboardhead", "item.Animals_as_Leaders.user.RoryEschar", "item.Animals_as_Leaders.user.pandafofinho", "item.Animals_as_Leaders.user.GaryBuseyCat", "item.Animals_as_Leaders.user.Khafka_", "item.Animals_as_Leaders.user.Blakavar", "item.Animals_as_Leaders.user.pipdibble", "item.Animals_as_Leaders.user.noisedriver"], "name": "item.Animals_as_Leaders", "recommendation": false, "owners": ["ktboardhead", "RoryEschar", "pandafofinho", "GaryBuseyCat", "Khafka_", "Blakavar", "pipdibble", "noisedriver"]},
+            {"edges": [], "name": "item.The_Van_Jets", "recommendation": true, "owners": []}
+        ]
+}

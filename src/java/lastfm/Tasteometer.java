@@ -58,9 +58,7 @@ public class Tasteometer {
         if (!result.isSuccessful()) {
             return null;
         }
-        if (result == null) System.err.println("result == null");
         DomElement element = result.getContentElement();
-        if (element == null) System.err.println("element == null");
         DomElement re = element.getChild("result");
         float score = Float.parseFloat(re.getChildText("score"));
         List<Artist> artists = new ArrayList<Artist>();

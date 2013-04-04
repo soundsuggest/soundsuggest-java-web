@@ -34,12 +34,14 @@ import org.json.JSONArray;
  */
 public class DataService extends HttpServlet {
     
-    public static final String API_KEY              = "828c109e6a54fffedad5177b194f7107";
-    public static final String API_SECRET           = "7c2f09e6eb84e8a6183c59e0bc574f70";
-    public static final String CONTENT_TYPE         = "application/json";
-    public static final int LIMIT_NEIGHBOURS        = 10;
-    public static final int LIMIT_SIMILAR_ARTISTS   = 5;
-    public static final double THRESHOLD               = 0.1;
+    public static final String API_KEY                  = "828c109e6a54fffedad5177b194f7107";
+    public static final String API_SECRET               = "7c2f09e6eb84e8a6183c59e0bc574f70";
+    public static final String CONTENT_TYPE             = "application/json";
+    public static final int LIMIT_NEIGHBOURS            = 10;
+    public static final int LIMIT_RECOMMENDED_ARTISTS   = 10;
+    public static final int LIMIT_TOP_ARTISTS           = 10;
+    public static final int LIMIT_SIMILAR_ARTISTS       = 5;
+    public static final double THRESHOLD                = 0.1;
     
     private String session_key;
     private String username;
@@ -178,19 +180,20 @@ public class DataService extends HttpServlet {
         for (Artist a : artists) {
             boolean isRecommendation = true;
             JSONObject artist = new JSONObject();
-            artist.put("name", a.getName());
+            artist.put("name", "item." + encodeName(a.getName()));
             artist.put("edges", new JSONArray());
             artist.put("owners", new JSONArray());
-            artist.put("description", a.getWikiSummary());
+            //artist.put("description", a.getWikiSummary());
+            artist.put("description", "NA");
             for (User u : artistData.get(a)) {
                 if (u.getName().equalsIgnoreCase(getUsername())) {
                     isRecommendation = false;
                 }
-                artist.put("edges", "artist." + a.getName() + ".user." + u.getName());
-                artist.put("owners", u.getName());
+                artist.append("edges", "item." + encodeName(a.getName()) + ".user." + encodeName(u.getName()));
+                artist.append("owners", encodeName(u.getName()));
             }
             artist.put("recommendation", isRecommendation);
-            JSON.put("items", artist);
+            JSON.append("items", artist);
         }
         
         JSON.put("users", new JSONArray());
@@ -198,12 +201,13 @@ public class DataService extends HttpServlet {
         Set<User> users = userData.keySet();
         for (User u : users) {
             JSONObject user = new JSONObject();
-            user.put("name", u.getName());
+            user.put("name", encodeName(u.getName()));
             user.put("active", u.getName().equalsIgnoreCase(getUsername()));
             user.put("owned", new JSONArray());
             for (Artist a : artists) {
-                user.put("owned", "artist." + a.getName());
+                user.append("owned", "item." + encodeName(a.getName()));
             }
+            JSON.append("users", user);
         }
         
         return JSON.toString();
@@ -237,8 +241,14 @@ public class DataService extends HttpServlet {
         
         // Get all relevant artists : "my" top artists and recommended artists
         PaginatedResult<Artist> paginatedResult = User.getRecommendedArtists(session);
-        Collection<Artist> recommendations = paginatedResult.getPageResults();
-        Collection<Artist> topartists =  User.getTopArtists(getActiveUser().getName(), API_KEY);
+        Object[] pageResults = paginatedResult.getPageResults().toArray();
+        Collection<Artist> recommendations = new ArrayList<Artist>(LIMIT_RECOMMENDED_ARTISTS);
+        for (int i = 0; i < LIMIT_RECOMMENDED_ARTISTS; i++) {
+            recommendations.add((Artist) pageResults[i]);
+        }
+        System.out.println("recommendations.size() == " + recommendations.size());
+        Collection<Artist> topartists =  User.getTopArtists(getActiveUser().getName(), LIMIT_TOP_ARTISTS, API_KEY);
+        System.out.println("topartists.size() == " + topartists.size());
         List<Artist> artists = new ArrayList<Artist>();
         artists.addAll(topartists);
         artists.addAll(recommendations);
@@ -247,6 +257,7 @@ public class DataService extends HttpServlet {
         Collection<User> neighbours = User.getNeighbours(getUsername(), LIMIT_NEIGHBOURS, API_KEY);
         List<User> users = new ArrayList<User>(neighbours);
         users.add(getActiveUser());
+        System.out.println("users.size() == " + users.size());
         
         // Initialize further
         for (Artist artist : artists) {
@@ -258,7 +269,7 @@ public class DataService extends HttpServlet {
         
         // Current state of affairs :
         if (getDebug()) {
-            String out = "artists : [";
+            String out = "\nartists : [";
             for (Artist artist : artists) {
                 out += artist.getName() + ", ";
             }
@@ -273,13 +284,20 @@ public class DataService extends HttpServlet {
         
         for (Artist artist : artists) {
             for (User user : users) {
-                Tasteometer.ComparisonResult result = Tasteometer.compare
-                        (Tasteometer.InputType.USER, user.getName(),
-                        Tasteometer.InputType.ARTISTS, createArtistString(artists),
-                        API_KEY);
-                if (result.getScore() > THRESHOLD) { 
-                    artistData.get(artist).add(user);
-                    userData.get(user).add(artist);
+                try {
+                    Tasteometer.ComparisonResult result = Tasteometer.compare
+                            (Tasteometer.InputType.USER, user.getName(),
+                            Tasteometer.InputType.ARTISTS, artist.getName(),
+                            API_KEY);
+                    if (result.getScore() > THRESHOLD) { 
+                        artistData.get(artist).add(user);
+                        userData.get(user).add(artist);
+                    }
+                } catch (Exception e) {
+                    System.err.println(e.getClass().getName() + " : {msg : ["
+                            + e.getLocalizedMessage() + "], data : [{usr : "
+                            + user.getName() + "}, {artist : "
+                            + artist.getName() + "}]}");
                 }
             }
         }
@@ -300,6 +318,10 @@ public class DataService extends HttpServlet {
             stringBuilder.append(",");
         }
         return stringBuilder.toString() + artists.get(N).getName();
+    }
+    
+    private String encodeName(String name) {
+        return name.replaceAll(" ", "_");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

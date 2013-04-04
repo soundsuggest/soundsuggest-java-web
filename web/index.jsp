@@ -18,13 +18,22 @@
         <script type="text/javascript" src="js/lib/infovis/infovis.whitebox.cf.js"></script>
     </head>
     <body>
-        <h1>SoundSuggest - Visualization of Music Suggestions</h1>
-        <h2>Digital Prototype</h2>
-        <div id="chart"></div>
-        <script type="text/javascript" src="js/main.js"></script>
-        <div id="item-info"></div>
-        <div id="users"></div>
-        <p>For more info on chord diagrams click <a href="http://bl.ocks.org/4062006" target="_blank">here</a>.</p>
-        <p>For more info the thesis click <a href="http://soundsuggest.wordpress.com/" target="_blank">here</a>.</p>
+        <div id="page">
+            <div id="header">
+                <h1>SoundSuggest - Visualization of Music Suggestions</h1>
+                <h2>Digital Prototype</h2>
+            </div>
+            <div id="content">
+                <div id="chart">
+                    <script type="text/javascript" src="js/main.js"></script>
+                </div>
+                <div id="users"></div>
+                <div id="item-info"></div>
+            </div>
+            <div id="footer">
+                <p>For more info on chord diagrams click <a href="http://bl.ocks.org/4062006" target="_blank">here</a>.</p>
+                <p>For more info the thesis click <a href="http://soundsuggest.wordpress.com/" target="_blank">here</a>.</p>
+            </div>
+        </div>
     </body>
 </html>
