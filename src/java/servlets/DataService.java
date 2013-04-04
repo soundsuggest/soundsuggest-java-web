@@ -169,9 +169,9 @@ public class DataService extends HttpServlet {
      * @return 
      */
     @Model
-    private String toJSON(Map<Artist, List<User>> data, List<User> users) {
+    private String toJSON(Map<Artist, List<User>> artistData, Map<User, List<Artist>> userData) {
         JSONObject JSON = new JSONObject();
-        Set<Artist> artists = data.keySet();
+        Set<Artist> artists = artistData.keySet();
         
         JSON.put("items", new JSONArray());
         
@@ -182,7 +182,7 @@ public class DataService extends HttpServlet {
             artist.put("edges", new JSONArray());
             artist.put("owners", new JSONArray());
             artist.put("description", a.getWikiSummary());
-            for (User u : data.get(a)) {
+            for (User u : artistData.get(a)) {
                 if (u.getName().equalsIgnoreCase(getUsername())) {
                     isRecommendation = false;
                 }
@@ -195,6 +195,7 @@ public class DataService extends HttpServlet {
         
         JSON.put("users", new JSONArray());
         
+        Set<User> users = userData.keySet();
         for (User u : users) {
             JSONObject user = new JSONObject();
             user.put("name", u.getName());
@@ -230,62 +231,60 @@ public class DataService extends HttpServlet {
      */
     @Model
     private String collectData(Session session) {
-        Map<Artist, List<User>> datastructure = new HashMap<Artist, List<User>>();
-        PaginatedResult<Artist> recommendations = User.getRecommendedArtists(session);
+        // Output
+        Map<Artist, List<User>> artistData = new HashMap<Artist, List<User>>();
+        Map<User, List<Artist>> userData = new HashMap<User, List<Artist>>();
         
-        if (getDebug()) {
-            String out = "recommendations : [";
-            for (Artist recommendation : recommendations.getPageResults()) {
-                out += recommendation.getName() + ", ";
-            }
-            System.out.println(out + "];");
-        }
+        // Get all relevant artists : "my" top artists and recommended artists
+        PaginatedResult<Artist> paginatedResult = User.getRecommendedArtists(session);
+        Collection<Artist> recommendations = paginatedResult.getPageResults();
+        Collection<Artist> topartists =  User.getTopArtists(getActiveUser().getName(), API_KEY);
+        List<Artist> artists = new ArrayList<Artist>();
+        artists.addAll(topartists);
+        artists.addAll(recommendations);
         
+        // Get all relevant users : "my" profile and neighbouring profiles
         Collection<User> neighbours = User.getNeighbours(getUsername(), LIMIT_NEIGHBOURS, API_KEY);
-        
-        if (getDebug()) {
-            String out = "neighbours : [ ";
-            for (User neighbour : neighbours) {
-                out += neighbour.getName() + ", ";
-            }
-            System.out.println(out + "];");
-        }
-        
-        for (Artist recommendation : recommendations.getPageResults()) {
-            
-            if (getDebug()) { System.out.println("recommendation : [" + recommendation + "];"); }
-            
-            // Create a list of Similar Artists including the recommendation
-            Collection<Artist> similarArtists = Artist.getSimilar(recommendation.getName(), LIMIT_SIMILAR_ARTISTS, API_KEY);
-            List<Artist> list = new ArrayList<Artist>(similarArtists);
-            list.add(recommendation);
-            
-            if (getDebug()) {
-                String out = "similar(" + recommendation.getName() + ") : [";
-                for (Artist a : list) {
-                    out += a.getName() + ", ";
-                }
-                System.out.println(out + "];");
-            }
-            
-            for (User neighbour : neighbours) {
-                
-                if (getDebug()) { System.out.println("Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, " + neighbour.getName() + ", Tasteometer.InputType.ARTISTS, " + createArtistString(list) + ");"); }
-                // Use the list to establish a similarity score between the recommendation and the user to determine an "ownership score";
-                Tasteometer.ComparisonResult result = Tasteometer.compare(Tasteometer.InputType.USER, neighbour.getName(), Tasteometer.InputType.ARTISTS, createArtistString(list), API_KEY);
-                if (getDebug()) { System.out.println("result.getScore() == " + result.getScore()); }
-                
-                if (result.getScore() > THRESHOLD) {
-                    if (datastructure.get(recommendation) == null) { datastructure.put(recommendation, new ArrayList<User>()); }
-                    datastructure.get(recommendation).add(neighbour);
-                } else {
-                    if (datastructure.get(recommendation) == null) { datastructure.put(recommendation, new ArrayList<User>()); }
-                }
-            }
-        }
         List<User> users = new ArrayList<User>(neighbours);
         users.add(getActiveUser());
-        return toJSON(datastructure, users);
+        
+        // Initialize further
+        for (Artist artist : artists) {
+            artistData.put(artist, new ArrayList<User>());
+        }
+        for (User user : users) {
+            userData.put(user, new ArrayList<Artist>());
+        }
+        
+        // Current state of affairs :
+        if (getDebug()) {
+            String out = "artists : [";
+            for (Artist artist : artists) {
+                out += artist.getName() + ", ";
+            }
+            out += "];\n";
+            out += "users : [ ";
+            for (User user : users) {
+                out += user.getName() + ", ";
+            }
+            out += "];";
+            System.out.println(out);
+        }
+        
+        for (Artist artist : artists) {
+            for (User user : users) {
+                Tasteometer.ComparisonResult result = Tasteometer.compare
+                        (Tasteometer.InputType.USER, user.getName(),
+                        Tasteometer.InputType.ARTISTS, createArtistString(artists),
+                        API_KEY);
+                if (result.getScore() > THRESHOLD) { 
+                    artistData.get(artist).add(user);
+                    userData.get(user).add(artist);
+                }
+            }
+        }
+        
+        return toJSON(artistData, userData);
     }
     
     /**
