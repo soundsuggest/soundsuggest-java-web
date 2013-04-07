@@ -54,7 +54,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setSessionKey(String sessionKey) {
         this.session_key = sessionKey;
-        if (getDebug()) System.out.println("getSessionKey() == " + getSessionKey());
+        if (getDebug()) { System.out.println("getSessionKey() == " + getSessionKey()); }
     }
     
     /**
@@ -68,7 +68,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setDebug(boolean debug) {
         this.debug = debug;
-        if (getDebug()) System.out.println("getDebug() == " + getDebug());
+        if (getDebug()) { System.out.println("getDebug() == " + getDebug()); }
     }
     
     @Basic
@@ -82,7 +82,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setUsername(String username) {
         this.username = username;
-        if (getDebug()) System.out.println("getUsername() == " + getUsername());
+        if (getDebug()) { System.out.println("getUsername() == " + getUsername()); }
     }
     
     /**
@@ -104,7 +104,7 @@ public class DataService extends HttpServlet {
     @Model
     private void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
-        if (getDebug()) System.out.println("getActiveUser() == " + getActiveUser().getName());
+        if (getDebug()) { System.out.println("getActiveUser() == " + getActiveUser().getName()); }
     }
     
     /**

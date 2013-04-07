@@ -15,6 +15,10 @@
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
         <script type="text/javascript" src="js/lib/d3/d3.v3.js"></script>
         <script type="text/javascript" src="js/lib/jquery/jquery-1.8.3.js"></script>
+        <script type="text/javascript" src="js/lib/jquery/jquery.lib.purl.js"></script>
+        <script type="text/javascript" src="js/lib/lastfm/lastfm.api.md5.js"></script>
+        <script type="text/javascript" src="js/lib/lastfm/lastfm.api.cache.js"></script>
+        <script type="text/javascript" src="js/lib/lastfm/lastfm.api.js"></script>
         <script type="text/javascript" src="js/lib/infovis/infovis.whitebox.cf.js"></script>
     </head>
     <body>
