@@ -1,45 +1,62 @@
 var API_KEY     = '828c109e6a54fffedad5177b194f7107';
 var API_SECRET  = '7c2f09e6eb84e8a6183c59e0bc574f70';
-var AUTH_URL;
 var LAST_FM;
 var SESSION_KEY;
 var USERNAME;
 
 jQuery(document).ready(function() {
     
-    USERNAME = window.prompt("Enter your Last.fm username", "noisedriver");
-    AUTH_URL = 'http://www.last.fm/api/auth/?api_key='
-             + API_KEY + '&cb=' + window.location;
-    LAST_FM  = new LastFM({
-                    apiKey: api_key,
-                    apiSecret: api_secret,
-                    cache: new LastFMCache()
-                });
+    LAST_FM = new LastFM({
+        apiKey      : API_KEY,
+        apiSecret   : API_SECRET,
+        cache       : new LastFMCache()
+    });
     
-    if (!$.url().param('token')) {
-        window.location = AUTH_URL;
+    if ($.url().param('added')) {
+        alert("Artist [" + $.url().param('added') + "] was successfully added!");
+    }
+    
+    if (!$.url().param('username')) {
+        USERNAME = window.prompt("Enter your Last.fm username", "noisedriver");
     } else {
-        var token = $.url().param('token');
-        LAST_FM.auth.getSession({
-            token: token
-        }, {
-            success: function(data_sess) {
-                SESSION_KEY = data_sess.session.key;
-                
-                d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, data) {
-                    new Whitebox(data);
-                });
-            },
-            error : function(data_error) {
-                console.error(data_error.error + " : " + data_error.message);
-            }
+        USERNAME = $.url().param('username');
+    }
+    
+    // If NO session THEN getSession ELSE loadData END-IF.
+    if (!$.url().param('session')) {
+        if (!$.url().param('token')) {
+            window.location = 'http://www.last.fm/api/auth/?api_key='
+                 + API_KEY + "&username=" + USERNAME + '&cb=' + window.location;
+        } else {
+            var token = $.url().param('token');
+            LAST_FM.auth.getSession({
+                token: token
+            }, {
+                success: function(data_sess) {
+                    SESSION_KEY = data_sess.session.key;
+
+                    d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
+                        new Whitebox(jsondata);
+                    });
+                },
+                error : function(data_error) {
+                    console.error(data_error.error + " : " + data_error.message);
+                }
+            });
+        }
+    } else {
+        SESSION_KEY = $.url().param('session');
+        
+        d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
+            new Whitebox(jsondata);
         });
     }
 });
 
 function addRecommendation(artist) {
+    var artist_name = artist.replace("_", " ");
     LAST_FM.library.addArtist({
-        artist  : artist,
+        artist  : artist_name,
         api_key : API_KEY
     },
     {
@@ -48,8 +65,8 @@ function addRecommendation(artist) {
     {
         success: function(data) {
             console.log(data);
-            var refresh = window.location;
-            window.location = refresh;
+            var tmp =  window.location.toString().split("?");
+            window.location = tmp[0] += "?session=" + SESSION_KEY + "&username=" + USERNAME + "&added=" + artist_name;
         },
         error: function(data_error) {
             console.error(data_error.error + " : " + data_error.message);
