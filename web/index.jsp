@@ -19,6 +19,7 @@
         <script type="text/javascript" src="js/lib/lastfm/lastfm.api.md5.js"></script>
         <script type="text/javascript" src="js/lib/lastfm/lastfm.api.cache.js"></script>
         <script type="text/javascript" src="js/lib/lastfm/lastfm.api.js"></script>
+        <script type="text/javascript" src="js/lib/spin/spin.js"></script>
         <script type="text/javascript" src="js/lib/infovis/infovis.whitebox.cf.js"></script>
     </head>
     <body>
@@ -29,6 +30,7 @@
             </div>
             <div id="content">
                 <div id="chart">
+                    <div id="spinner"></div>
                     <script type="text/javascript" src="js/main.js"></script>
                 </div>
                 <div id="users"></div>

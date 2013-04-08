@@ -3,8 +3,28 @@ var API_SECRET  = '7c2f09e6eb84e8a6183c59e0bc574f70';
 var LAST_FM;
 var SESSION_KEY;
 var USERNAME;
+var SPINNER;
 
 jQuery(document).ready(function() {
+    
+    SPINNER = new Spinner({
+        lines: 13, // The number of lines to draw
+        length: 20, // The length of each line
+        width: 10, // The line thickness
+        radius: 50, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: '200px', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    }).spin(document.getElementById("spinner"));
     
     LAST_FM = new LastFM({
         apiKey      : API_KEY,
@@ -36,6 +56,7 @@ jQuery(document).ready(function() {
                     SESSION_KEY = data_sess.session.key;
 
                     d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
+                        SPINNER.stop();
                         new Whitebox(jsondata);
                     });
                 },
@@ -48,6 +69,7 @@ jQuery(document).ready(function() {
         SESSION_KEY = $.url().param('session');
         
         d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
+            SPINNER.stop();
             new Whitebox(jsondata);
         });
     }

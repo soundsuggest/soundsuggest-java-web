@@ -1,5 +1,5 @@
 JavaScript last.fm API Readme
------------------------------
+=============================
 
 Overview
 --------
@@ -81,6 +81,30 @@ Now you can use the JavaScript last.fm API like this:
 		/* Show error message. */
 	}});
 
+
+Chrome Extensions
+-----------------
+
+The Chrome extension Last.fm library is an adapter that calls the Last.fm API
+methods on the background page of a Chrome Extension through the
+chrome.extension.sendMessage method. In the background page the action can be
+retrieved and the corresponding call can be forwarded to the Last.fm API.
+
+    chrome.extension.onMessage.addListener(doAction);
+
+    function doAction(request, sender, sendResponse) {
+        if (request.action === 'user.getTopArtists') {
+            lastfm.user.getTopArtists(request.params, {
+                success : function(data) {
+                    sendResponse(data);
+                },
+                error   : function(error, msg) {
+                    console.error(error + " : " + msg);
+                }
+            });
+            return true;
+        }
+    };
 
 More
 ----
