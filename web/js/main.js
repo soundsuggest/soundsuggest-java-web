@@ -84,6 +84,10 @@ function itemInfo(itemname, isrecommendation, user) {
     });
 }
 
+function userInfo(userName, isActiveUser, activeuser) {
+    
+}
+
 addRecommendation = function(artist) {
     WHITEBOX.destroy();
     createSpinner();
