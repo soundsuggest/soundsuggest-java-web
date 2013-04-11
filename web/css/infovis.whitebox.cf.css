@@ -8,6 +8,11 @@
         header of the custom CSS stylesheet.
 */
 
+#chart {
+    width: 500px;
+    height: 500px;
+}
+
 .user {
     cursor: pointer;
 }

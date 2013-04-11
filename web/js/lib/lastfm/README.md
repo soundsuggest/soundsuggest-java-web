@@ -93,7 +93,7 @@ retrieved and the corresponding call can be forwarded to the Last.fm API.
     chrome.extension.onMessage.addListener(doAction);
 
     function doAction(request, sender, sendResponse) {
-        if (request.action === 'user.getTopArtists') {
+        if (request.action === 'lastfm.user.getTopArtists') {
             lastfm.user.getTopArtists(request.params, {
                 success : function(data) {
                     sendResponse(data);

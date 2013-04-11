@@ -183,8 +183,6 @@ public class DataService extends HttpServlet {
             artist.put("name", "item." + encodeName(a.getName()));
             artist.put("edges", new JSONArray());
             artist.put("owners", new JSONArray());
-            //artist.put("description", a.getWikiSummary());
-            artist.put("description", "NA");
             for (User u : artistData.get(a)) {
                 if (u.getName().equalsIgnoreCase(getUsername())) {
                     isRecommendation = false;
@@ -245,7 +243,7 @@ public class DataService extends HttpServlet {
         PaginatedResult<Artist> paginatedResult = User.getRecommendedArtists(session);
         Object[] pageResults = paginatedResult.getPageResults().toArray();
         Collection<Artist> recommendations = new ArrayList<Artist>(LIMIT_RECOMMENDED_ARTISTS);
-        for (int i = 0; i < LIMIT_RECOMMENDED_ARTISTS; i++) {
+        for (int i = 0; i < ((LIMIT_RECOMMENDED_ARTISTS < pageResults.length)?LIMIT_RECOMMENDED_ARTISTS:pageResults.length); i++) {
             recommendations.add((Artist) pageResults[i]);
         }
         System.out.println("recommendations.size() == " + recommendations.size());

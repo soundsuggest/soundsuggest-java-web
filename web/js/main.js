@@ -4,27 +4,11 @@ var LAST_FM;
 var SESSION_KEY;
 var USERNAME;
 var SPINNER;
+var WHITEBOX;
 
 jQuery(document).ready(function() {
     
-    SPINNER = new Spinner({
-        lines: 13, // The number of lines to draw
-        length: 20, // The length of each line
-        width: 10, // The line thickness
-        radius: 50, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        direction: 1, // 1: clockwise, -1: counterclockwise
-        color: '#000', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: '200px', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    }).spin(document.getElementById("spinner"));
+    createSpinner();
     
     LAST_FM = new LastFM({
         apiKey      : API_KEY,
@@ -57,7 +41,8 @@ jQuery(document).ready(function() {
 
                     d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
                         SPINNER.stop();
-                        new Whitebox(jsondata);
+                        WHITEBOX = new Whitebox();
+                        WHITEBOX.create(jsondata);
                     });
                 },
                 error : function(data_error) {
@@ -70,15 +55,40 @@ jQuery(document).ready(function() {
         
         d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
             SPINNER.stop();
-            new Whitebox(jsondata);
+            WHITEBOX = new Whitebox();
+            WHITEBOX.create(jsondata);
         });
     }
 });
 
-function addRecommendation(artist) {
-    var artist_name = artist.replace("_", " ");
+function itemInfo(itemname, isrecommendation, user) {
+    lastfm.artist.getInfo({
+        artist    : itemname,
+        user      : user
+    },
+    {
+        success: function(data) {
+            var bio = data.artist.bio.summary;
+            jQuery('#item-info-description')
+                .append(bio);
+            if (isrecommendation) {
+                d3.select('#item-info-controls')
+                    .append('button')
+                    .text('Add to library')
+                    .attr('onclick', 'addRecommendation("' + itemname + '");');
+            }
+        },
+        error: function(data) {
+            console.error(data.error + " " + data.message);
+        }
+    });
+}
+
+addRecommendation = function(artist) {
+    WHITEBOX.destroy();
+    createSpinner();
     LAST_FM.library.addArtist({
-        artist  : artist_name,
+        artist  : artist,
         api_key : API_KEY
     },
     {
@@ -87,11 +97,39 @@ function addRecommendation(artist) {
     {
         success: function(data) {
             console.log(data);
+            /*
             var tmp =  window.location.toString().split("?");
-            window.location = tmp[0] += "?session=" + SESSION_KEY + "&username=" + USERNAME + "&added=" + artist_name;
+            window.location = tmp[0] += "?session=" + SESSION_KEY + "&username=" + USERNAME + "&added=" + artist;
+            */
+            d3.json("DataService?key=" + SESSION_KEY + "&user=" + USERNAME, function(error, jsondata) {
+                SPINNER.stop();
+                WHITEBOX = new Whitebox();
+                WHITEBOX.create(jsondata);
+            });
         },
         error: function(data_error) {
             console.error(data_error.error + " : " + data_error.message);
         }
     });
-}
+};
+
+createSpinner = function() {
+    SPINNER = new Spinner({
+         lines: 13,
+         length: 20,
+         width: 10,
+         radius: 50,
+         corners: 1,
+         rotate: 0,
+         direction: 1,
+         color: '#000',
+         speed: 1,
+         trail: 60,
+         shadow: false,
+         hwaccel: false,
+         className: 'spinner',
+         zIndex: 2e9,
+         top: '200px',
+         left: 'auto'
+     }).spin(document.getElementById("spinner"));
+};
